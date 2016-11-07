@@ -28,7 +28,7 @@ const reduxUtils = countWordsOccurrence.default;
 
 ### Reducers
 
-#### **createReducer(initialState, handler)**
+#### # **createReducer(initialState, handler)**
 
 ```js
 const reducer = createReducer({}, {
@@ -48,7 +48,7 @@ Type: `{ actionType: (previousState, action) => nextState }` | default: `{}`
 
 ### Actions
 
-#### **asyncActionWith(fn, ...actions)(...params)(dispatch)**
+#### # **asyncActionWith(fn, ...actions)(...params)(dispatch)**
 
 ```js
 const fn = (...params) =>
