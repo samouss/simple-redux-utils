@@ -46,7 +46,7 @@ Type: `any`
 
 Type: `{ actionType: (previousState, action) => nextState }` | default: `{}`
 
-### Reducers
+### Actions
 
 #### **asyncActionWith(fn, ...actions)(...params)(dispatch)**
 
