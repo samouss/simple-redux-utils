@@ -1,7 +1,7 @@
 {
   "name": "simple-redux-utils",
   "version": "0.0.1",
-  "description": "Simple Redux utils",
+  "description": "Simple Redux utils for facilitate workflow",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf dist lib",
