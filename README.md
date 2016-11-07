@@ -28,9 +28,9 @@ const reduxUtils = countWordsOccurrence.default;
 
 ### Reducers
 
-```js
-createReducer(initialState, handler);
+#### **createReducer(initialState, handler)**
 
+```js
 const reducer = createReducer({}, {
   ['ACTION']: (state, action) => state,
 });
@@ -38,19 +38,19 @@ const reducer = createReducer({}, {
 
 Return the initialState if no action match.
 
-#### **initialState**
+##### **initialState**
 
 Type: `any`
 
-#### **handler**
+##### **handler**
 
 Type: `{ actionType: (previousState, action) => nextState }` | default: `{}`
 
-### Actions
+### Reducers
+
+#### **asyncActionWith(fn, ...actions)(...params)(dispatch)**
 
 ```js
-asyncActionWith(fn, ...actions)(...params)(dispatch);
-
 const fn = (...params) =>
   Promise.resolve(params);
 
@@ -81,25 +81,25 @@ dispatch(action(id));
 
 ```
 
-#### **fn**
+##### **fn**
 
 Type: `(...params: Array<any>): Promise<any>`
 
 The function to execute in the action creator.
 
-#### **actions**
+##### **actions**
 
 Type: `Array<(payload: any) => ACTION>`
 
 Array of 3 action creators (REQUEST, SUCCESS, FAILURE).
 
-#### **params**
+##### **params**
 
 Type: `any`
 
 Parameters for the function (will be dispatch in REQUEST action).
 
-#### **dispatch**
+##### **dispatch**
 
 Type: `(ACTION) => any`
 
