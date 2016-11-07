@@ -18,6 +18,11 @@
     "type": "git",
     "url": "https://github.com/samouss/simple-redux-utils.git"
   },
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "author": [
     "Samuel Vaillant <samuel.vllnt@gmail.com>"
   ],
