@@ -7,7 +7,7 @@
     "clean": "rm -rf dist lib",
     "prepublish": "npm run build",
     "build": "npm run clean && npm run build:lib && npm run build:umd && npm run build:umd:min",
-    "build:lib": "babel src --out-dir lib --ignore **/*.spec.js",
+    "build:lib": "babel src --out-dir lib --ignore *.spec.js",
     "build:umd": "NODE_ENV=development webpack src/index.js dist/simple-redux-utils.js --progress",
     "build:umd:min": "NODE_ENV=production webpack src/index.js dist/simple-redux-utils.min.js --progress",
     "test": "npm run mocha \"./src/**/*.spec.js\"",
