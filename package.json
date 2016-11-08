@@ -1,6 +1,6 @@
 {
   "name": "simple-redux-utils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple Redux utils for facilitate workflow",
   "main": "lib/index.js",
   "scripts": {
