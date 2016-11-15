@@ -21,7 +21,7 @@ import { createReducer } from 'simple-redux-utils';
 const reduxUtils = require('simple-redux-utils');
 
 // From global
-const reduxUtils = countWordsOccurrence.default;
+const reduxUtils = simpleReduxUtils.default;
 ```
 
 ## Documentation
