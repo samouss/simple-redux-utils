@@ -8,9 +8,9 @@
     "prepublish": "npm run build",
     "build": "npm run clean && npm run build:lib && npm run build:umd && npm run build:umd:min",
     "build:lib": "babel src --out-dir lib --ignore *.spec.js",
-    "build:umd": "NODE_ENV=development webpack src/index.js dist/simple-redux-utils.js --progress",
-    "build:umd:min": "NODE_ENV=production webpack src/index.js dist/simple-redux-utils.min.js --progress",
-    "test": "npm run mocha \"./src/**/*.spec.js\"",
+    "build:umd": "node_modules/.bin/webpack src/index.js dist/simple-redux-utils.js --progress",
+    "build:umd:min": "node_modules/.bin/webpack src/index.js dist/simple-redux-utils.min.js --env.production --progress",
+    "test": "npm run mocha \"src/**/*.spec.js\"",
     "mocha": "mocha --require babel-register",
     "mocha:watch": "npm run mocha -- --watch"
   },
@@ -47,6 +47,6 @@
     "redux-mock-store": "1.2.1",
     "redux-thunk": "2.1.0",
     "sinon": "1.17.6",
-    "webpack": "1.13.3"
+    "webpack": "2.1.0-beta.27"
   }
 }

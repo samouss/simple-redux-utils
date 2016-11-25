@@ -1,54 +1,52 @@
-/* eslint-disable comma-dangle */
-
 const webpack = require('webpack');
 
-const plugins = [
-  new webpack.optimize.OccurrenceOrderPlugin(),
-];
+// Helpers
+const clean = plugins => plugins.filter(x => !!x);
 
-if (process.env.NODE_ENV === 'production') {
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true,
-        warnings: false,
-      },
-      mangle: {
-        screw_ie8: true,
-      },
-      output: {
-        comments: false,
-        screw_ie8: true,
-      },
-    })
-  );
-}
+module.exports = (options = {}) => {
+  const isProduction = !!options.production;
 
-module.exports = {
-  output: {
-    library: 'simpleReduxUtils',
-    libraryTarget: 'umd',
-  },
-  eslint: {
-    configFile: './.eslintrc',
-    failOnError: true,
-    failOnWarning: true,
-  },
-  module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint',
-      },
-    ],
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-      },
-    ],
-  },
-  plugins,
+  return {
+    output: {
+      library: 'simpleReduxUtils',
+      libraryTarget: 'umd',
+    },
+    module: {
+      loaders: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loaders: [
+            { loader: 'babel-loader' },
+            {
+              loader: 'eslint-loader',
+              query: {
+                configFile: '.eslintrc',
+                failOnError: isProduction,
+                failOnWarning: isProduction,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    plugins: clean([
+      new webpack.optimize.OccurrenceOrderPlugin(),
+
+      // Only for production
+      isProduction && new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          screw_ie8: true,
+          warnings: false,
+        },
+        mangle: {
+          screw_ie8: true,
+        },
+        output: {
+          comments: false,
+          screw_ie8: true,
+        },
+      }),
+    ]),
+  };
 };
