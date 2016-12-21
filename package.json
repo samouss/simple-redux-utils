@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf dist lib",
-    "prepublish": "npm run build",
+    "prepublish": "npm test && npm run build",
     "build": "npm run clean && npm run build:lib && npm run build:umd && npm run build:umd:min",
     "build:lib": "babel src --out-dir lib --ignore *.spec.js",
     "build:umd": "node_modules/.bin/webpack src/index.js dist/simple-redux-utils.js --progress",
