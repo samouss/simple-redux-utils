@@ -1,5 +1,3 @@
-/* eslint-disable max-len, padded-blocks */
-
 import { describe, it } from 'mocha';
 import { should } from 'chai';
 import thunk from 'redux-thunk';
@@ -12,7 +10,9 @@ const mockStore = configureMockStore(middlewares);
 should();
 
 describe('actions', () => {
-
+  /**
+   * asyncActionWith
+   */
   describe('asyncActionWith', () => {
     it('should successfully resolve the action', () => {
       const store = mockStore();
@@ -57,4 +57,51 @@ describe('actions', () => {
     });
   });
 
+  /**
+   * bindActionToPromise
+   */
+  describe('bindActionToPromise', () => {
+    const middleware = () => next => action => {
+      const async = action[actions.KEY_BINDING_PROMISE];
+
+      if (!async) {
+        return next(action);
+      }
+
+      if (action.payload) {
+        return async.resolve(next(action));
+      }
+
+      return async.reject(next(action));
+    };
+
+    const middlewares = [thunk, middleware];
+    const mockStore = configureMockStore(middlewares);
+
+    it('should bind an action to a promise and resolve it', () => {
+      const store = mockStore();
+
+      const action = {
+        type: 'ACTION',
+        payload: true,
+      };
+
+      return store.dispatch(actions.bindActionToPromise(action)).then(res => {
+        res.should.be.deep.equal(action);
+      });
+    });
+
+    it('should bind an action to a promise and reject it', () => {
+      const store = mockStore();
+
+      const action = {
+        type: 'ACTION',
+        payload: false,
+      };
+
+      return store.dispatch(actions.bindActionToPromise(action)).catch(res => {
+        res.should.be.deep.equal(action);
+      });
+    });
+  });
 });
