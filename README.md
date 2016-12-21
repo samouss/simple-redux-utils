@@ -105,6 +105,41 @@ Type: `(ACTION) => any`
 
 Redux dipatch function.
 
+#### # **bindActionToPromise(action)(dispatch)**
+
+```js
+const action = {
+  type: 'ACTION',
+  payload: 'SOME_DATA',
+}
+
+dispatch(bindActionToPromise(action));
+
+// Usage with Redux Saga
+function* saga() {
+  const action = take('ACTION');
+
+  try {
+    yield call(fn, value);
+    yield put(actionCreator());
+
+    action[KEY_BINDING_PROMISE].resolve();
+  } catch(error) {
+    action[KEY_BINDING_PROMISE].reject(error);
+  }
+}
+```
+
+##### **action**
+
+Type: `ACTION`
+
+##### **dispatch**
+
+Type: `(ACTION) => any`
+
+Redux dipatch function.
+
 ## Run the test
 
 ```
