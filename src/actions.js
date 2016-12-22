@@ -14,7 +14,7 @@ export const asyncActionWith = (fn, ...actions) => (...params) => dispatch => {
   });
 };
 
-export const KEY_BINDING_PROMISE = Symbol('simple-redux-utils/KEY_BINDING_PROMISE');
+const KEY_BINDING_PROMISE = 'simple-redux-utils/KEY_BINDING_PROMISE';
 
 export const getResolverBindActionToPromise = action =>
   action[KEY_BINDING_PROMISE];

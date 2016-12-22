@@ -68,7 +68,7 @@ describe('actions', () => {
       };
 
       const action = {
-        [actions.KEY_BINDING_PROMISE]: resolver,
+        'simple-redux-utils/KEY_BINDING_PROMISE': resolver,
       };
 
       const result = actions.getResolverBindActionToPromise(action);
@@ -90,17 +90,17 @@ describe('actions', () => {
    */
   describe('bindActionToPromise', () => {
     const middleware = () => next => action => {
-      const async = action[actions.KEY_BINDING_PROMISE];
+      const resolver = actions.getResolverBindActionToPromise(action);
 
-      if (!async) {
+      if (!resolver) {
         return next(action);
       }
 
       if (action.payload) {
-        return async.resolve(next(action));
+        return resolver.resolve(next(action));
       }
 
-      return async.reject(next(action));
+      return resolver.reject(next(action));
     };
 
     const middlewares = [thunk, middleware];
@@ -121,10 +121,7 @@ describe('actions', () => {
       const boundAction = actions.bindActionToPromise(actionCreator);
 
       return store.dispatch(boundAction(true)).then(res => {
-        res.should.be.deep.equal({
-          ...action,
-          payload: true,
-        });
+        res.type.should.be.equal(action.type);
       });
     });
 
@@ -143,10 +140,7 @@ describe('actions', () => {
       const boundAction = actions.bindActionToPromise(actionCreator);
 
       return store.dispatch(boundAction(false)).catch(res => {
-        res.should.be.deep.equal({
-          ...action,
-          payload: false,
-        });
+        res.type.should.be.equal(action.type);
       });
     });
   });
