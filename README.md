@@ -105,40 +105,60 @@ Type: `(ACTION) => any`
 
 Redux dipatch function.
 
-#### # **bindActionToPromise(action)(dispatch)**
+#### # **bindActionToPromise(actionCreator)(dispatch)**
 
 ```js
-const action = {
+const actionCreator = payload => ({
   type: 'ACTION',
-  payload: 'SOME_DATA',
-}
+  payload,
+})
 
-dispatch(bindActionToPromise(action));
+const boundAction = bindActionToPromise(actionCreator);
+
+dispatch(boundAction(payload));
 
 // Usage with Redux Saga
 function* saga() {
   const action = take('ACTION');
+  const resolver = getResolverBindActionToPromise(action);
 
   try {
     yield call(fn, value);
     yield put(actionCreator());
 
-    action[KEY_BINDING_PROMISE].resolve();
+    resolver.resolve();
   } catch(error) {
-    action[KEY_BINDING_PROMISE].reject(error);
+    resolver.reject(error);
   }
 }
 ```
 
-##### **action**
+##### **actionCreator**
 
-Type: `ACTION`
+Type: `(payload: any) => ACTION`
+
+##### **payload**
+
+Type: `any`
 
 ##### **dispatch**
 
 Type: `(ACTION) => any`
 
 Redux dipatch function.
+
+#### # **getResolverBindActionToPromise(action)**
+
+```js
+const resolver = getResolverBindActionToPromise(action);
+
+resolver.resolve();
+resolver.reject();
+```
+
+##### **action**
+
+Type: `ACTION`
 
 ## Run the test
 
