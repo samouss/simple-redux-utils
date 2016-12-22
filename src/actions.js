@@ -15,8 +15,12 @@ export const asyncActionWith = (fn, ...actions) => (...params) => dispatch => {
 };
 
 export const KEY_BINDING_PROMISE = Symbol('simple-redux-utils/KEY_BINDING_PROMISE');
-export const bindActionToPromise = action => dispatch =>
+
+export const getResolverBindActionToPromise = action =>
+  action[KEY_BINDING_PROMISE];
+
+export const bindActionToPromise = creator => payload => dispatch =>
   new Promise((resolve, reject) => dispatch({
-    ...action,
+    ...creator(payload),
     [KEY_BINDING_PROMISE]: { resolve, reject },
   }));

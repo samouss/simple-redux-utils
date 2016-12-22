@@ -7,7 +7,7 @@ import * as actions from './actions';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-should();
+const Should = should();
 
 describe('actions', () => {
   /**
@@ -58,6 +58,34 @@ describe('actions', () => {
   });
 
   /**
+   * getResolverBindActionToPromise
+   */
+  describe('getResolverBindActionToPromise', () => {
+    it('should return the resolver', () => {
+      const resolver = {
+        resolve: () => {},
+        reject: () => {},
+      };
+
+      const action = {
+        [actions.KEY_BINDING_PROMISE]: resolver,
+      };
+
+      const result = actions.getResolverBindActionToPromise(action);
+
+      result.should.be.deep.equal(resolver);
+    });
+
+    it('should not return the resolver', () => {
+      const action = {};
+
+      const result = actions.getResolverBindActionToPromise(action);
+
+      Should.not.exist(result);
+    });
+  });
+
+  /**
    * bindActionToPromise
    */
   describe('bindActionToPromise', () => {
@@ -83,11 +111,20 @@ describe('actions', () => {
 
       const action = {
         type: 'ACTION',
-        payload: true,
       };
 
-      return store.dispatch(actions.bindActionToPromise(action)).then(res => {
-        res.should.be.deep.equal(action);
+      const actionCreator = payload => ({
+        ...action,
+        payload,
+      });
+
+      const boundAction = actions.bindActionToPromise(actionCreator);
+
+      return store.dispatch(boundAction(true)).then(res => {
+        res.should.be.deep.equal({
+          ...action,
+          payload: true,
+        });
       });
     });
 
@@ -96,11 +133,20 @@ describe('actions', () => {
 
       const action = {
         type: 'ACTION',
-        payload: false,
       };
 
-      return store.dispatch(actions.bindActionToPromise(action)).catch(res => {
-        res.should.be.deep.equal(action);
+      const actionCreator = payload => ({
+        ...action,
+        payload,
+      });
+
+      const boundAction = actions.bindActionToPromise(actionCreator);
+
+      return store.dispatch(boundAction(false)).catch(res => {
+        res.should.be.deep.equal({
+          ...action,
+          payload: false,
+        });
       });
     });
   });
