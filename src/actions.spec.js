@@ -58,9 +58,9 @@ describe('actions', () => {
   });
 
   /**
-   * getResolverBindActionToPromise
+   * getPromiseResolverBoundToPromise
    */
-  describe('getResolverBindActionToPromise', () => {
+  describe('getPromiseResolverBoundToPromise', () => {
     it('should return the resolver', () => {
       const resolver = {
         resolve: () => {},
@@ -71,7 +71,7 @@ describe('actions', () => {
         'simple-redux-utils/KEY_BINDING_PROMISE': resolver,
       };
 
-      const result = actions.getResolverBindActionToPromise(action);
+      const result = actions.getPromiseResolverBoundToPromise(action);
 
       result.should.be.deep.equal(resolver);
     });
@@ -79,7 +79,7 @@ describe('actions', () => {
     it('should not return the resolver', () => {
       const action = {};
 
-      const result = actions.getResolverBindActionToPromise(action);
+      const result = actions.getPromiseResolverBoundToPromise(action);
 
       Should.not.exist(result);
     });
@@ -90,7 +90,7 @@ describe('actions', () => {
    */
   describe('bindActionToPromise', () => {
     const middleware = () => next => action => {
-      const resolver = actions.getResolverBindActionToPromise(action);
+      const resolver = actions.getPromiseResolverBoundToPromise(action);
 
       if (!resolver) {
         return next(action);

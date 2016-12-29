@@ -16,7 +16,7 @@ export const asyncActionWith = (fn, ...actions) => (...params) => dispatch => {
 
 const KEY_BINDING_PROMISE = 'simple-redux-utils/KEY_BINDING_PROMISE';
 
-export const getResolverBindActionToPromise = action =>
+export const getPromiseResolverBoundToPromise = action =>
   action[KEY_BINDING_PROMISE];
 
 export const bindActionToPromise = creator => payload => dispatch =>
