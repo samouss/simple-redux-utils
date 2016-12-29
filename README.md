@@ -147,10 +147,10 @@ Type: `(ACTION) => any`
 
 Redux dipatch function.
 
-#### # **getResolverBindActionToPromise(action)**
+#### # **getPromiseResolverBoundToPromise(action)**
 
 ```js
-const resolver = getResolverBindActionToPromise(action);
+const resolver = getPromiseResolverBoundToPromise(action);
 
 resolver.resolve();
 resolver.reject();
@@ -159,6 +159,72 @@ resolver.reject();
 ##### **action**
 
 Type: `ACTION`
+
+### Sagas
+
+#### # **throws(error)**
+
+```js
+const saga = function* saga() {
+  yield put(request());
+
+  try {
+    const response = yield call(fetch);
+
+    yield put(success(response));
+    yield response;
+  } catch (error) {
+    // We can handle error at this level
+    yield put(failure(error));
+    yield call(throws, error);
+  }
+}
+
+const main = function* main() {
+  try {
+    yield call(saga);
+    yield call(otherSagaWhoCanDispatchActionLikePrevious);
+    yield put(success());
+  } catch (error) {
+    // Or at this one
+    // Useful for dispatch different action
+    yield put(failure(error));
+  }
+}
+```
+
+##### **error**
+
+Type: `{ [KEY: any]: any }`
+
+#### # **wrapSagaWithResolver(saga, action)**
+
+```js
+export const watch = function* watch() {
+  while (true) {
+    const action = yield take(ACTION);
+
+    yield fork(wrapSagaWithResolver, saga, action);
+  }
+};
+
+const boundAction = bindActionToPromise(actionCreator);
+
+dispatch(boundAction(payload)).then(() => {
+  // Enable the possibility to call `.then` on dispatch when action creator
+  // has been bound to promise with `bindActionToPromise`
+})
+```
+
+##### **saga**
+
+Type: `function* () => any`
+
+##### **action**
+
+Type: `ACTION`
+
+**MUST** have been bound to promise with `bindActionToPromise`.
 
 ## Run the test
 
